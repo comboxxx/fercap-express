@@ -42,7 +42,7 @@ function insertUser_Project(data, res, cb) {
                 cb(err)
                 return
             }
-            cb(null, rows)
+            cb(null, res)
         });
 }
 

@@ -35,8 +35,6 @@ router.post('/createUser', function (req, res) {
         (cb) => { insertListPerson(data.userId, data, cb) },
         (cb) => { insertUser(data.userId, data, cb) },
         (cb) => { insertEthicCommittee(data.userId, data, cb) },
-        
-
 
     ], (err, result) => {
         if (err) {
@@ -253,6 +251,23 @@ router.post('/getUserInProject', function (req, res) {
     LEFT JOIN user_project ON users.userId=user_project.userId
     WHERE user_project.projectId="${data.projectId}"
     ORDER BY firstName DESC
+    `,
+        function (err, rows) {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            return res.status(200).send(rows);
+        });
+})
+
+//SET ACTIVE USER
+router.post('/setActiveUser', function (req, res) {
+    var data = req.body;
+
+    mysql_conn.query(`
+    UPDATE users
+    SET isActive = 1
+    WHERE userId = "${data.userId}"
     `,
         function (err, rows) {
             if (err) {
